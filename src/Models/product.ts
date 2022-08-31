@@ -43,4 +43,16 @@ export class ProductModel {
             throw new Error("Error with product fetching ");
         }
     }
+
+    
+    GetProductsbyCat = async (category : string )  : Promise<product[]> => {
+        try {
+            const conn = await client.connect();
+            const sql = "select * from products  where category = $1";
+            const result = await conn.query(sql,[category]);
+            return result.rows;
+        } catch (error) {
+            throw new Error("Please check the correct category  ");
+        }
+    }
 }

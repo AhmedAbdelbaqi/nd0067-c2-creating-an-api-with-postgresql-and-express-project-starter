@@ -54,7 +54,7 @@ var OderModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = "insert into orders (orderstatus,userid) values ('open',$1) returning *";
+                        sql = "insert into orders (orderstatus,userid) values ('active',$1) returning *";
                         return [4 /*yield*/, conn.query(sql, [userid])];
                     case 2:
                         result = _a.sent();
@@ -69,7 +69,7 @@ var OderModel = /** @class */ (function () {
         }); };
         // get Orders of specific user
         this.index = function (userid, orderstatus) {
-            if (orderstatus === void 0) { orderstatus = "closed"; }
+            if (orderstatus === void 0) { orderstatus = "complete"; }
             return __awaiter(_this, void 0, void 0, function () {
                 var conn, sql, result, error_2;
                 return __generator(this, function (_a) {
@@ -103,7 +103,7 @@ var OderModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = "update orders set orderstatus = 'closed' where userid = $1 and id = $2 returning *";
+                        sql = "update orders set orderstatus = 'complete' where userid = $1 and id = $2 returning *";
                         return [4 /*yield*/, conn.query(sql, [userid, orderid])];
                     case 2:
                         result = _a.sent();

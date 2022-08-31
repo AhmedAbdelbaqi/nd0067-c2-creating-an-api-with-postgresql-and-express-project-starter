@@ -12,7 +12,7 @@ export class OderModel {
     create = async (userid : number):Promise <order> => {
         try {
             const conn = await client.connect();
-            const sql = "insert into orders (orderstatus,userid) values ('open',$1) returning *";
+            const sql = "insert into orders (orderstatus,userid) values ('active',$1) returning *";
             const result =  await conn.query(sql , [userid]);
             conn.release();
             return result.rows[0];
@@ -22,7 +22,7 @@ export class OderModel {
     }
 
     // get Orders of specific user
-    index = async (userid : number , orderstatus: string = "closed"):Promise <order[]> => {
+    index = async (userid : number , orderstatus: string = "complete"):Promise <order[]> => {
         try {
             const conn = await client.connect();
             const sql = "select * from orders where userid = $1 and orderstatus = $2";
@@ -38,7 +38,7 @@ export class OderModel {
     Close = async (userid : number, orderid : number):Promise <order> => {
         try {
             const conn = await client.connect();
-            const sql = "update orders set orderstatus = 'closed' where userid = $1 and id = $2 returning *";
+            const sql = "update orders set orderstatus = 'complete' where userid = $1 and id = $2 returning *";
             const result =  await conn.query(sql , [userid , orderid]);
             conn.release();
             return result.rows[0];

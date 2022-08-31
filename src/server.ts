@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import { Userhandler } from './api/routes/usershandler';
 import { Orderhandler } from './api/routes/ordershandler';
 import {Producthandler} from './api/routes/productsHandler';
+import { DashboardHandler } from './api/routes/dashboardHandler';
 
 const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
@@ -17,6 +18,7 @@ app.get('/', function (req: Request, res: Response) {
 Userhandler(app);
 Orderhandler(app);
 Producthandler(app);
+DashboardHandler(app);
 
 
 app.listen(3000, function () {

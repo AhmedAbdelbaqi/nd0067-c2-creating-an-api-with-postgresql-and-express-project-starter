@@ -43,8 +43,19 @@ const index = async (_req:express.Request, res:express.Response) => {
     }
 }    
 
+const GetProductsbyCat = async (_req:express.Request, res:express.Response) => {
+    try {
+    const category = _req.query.category as string;
+    const result = await productsContext.GetProductsbyCat(category);
+    res.send(result);
+    } catch (error) {
+        res.send("error with product fetch ");
+    }
+}  
+
 export const Producthandler = (app:express.Application) => {
     app.get("/products" , index);
     app.post("/product", create);
     app.get("/product/:id" , show);
+    app.get("/productcat" , GetProductsbyCat); 
 }

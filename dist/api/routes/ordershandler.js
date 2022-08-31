@@ -139,14 +139,13 @@ var orderUserCheck = function (_req, res, next) { return __awaiter(void 0, void 
                 return [4 /*yield*/, OrdeContext.orderUserCheck(userid, orderid)];
             case 1:
                 result = _a.sent();
-                if ((result === null || result === void 0 ? void 0 : result.orderstatus) == "open") {
+                if ((result === null || result === void 0 ? void 0 : result.orderstatus) == "active") {
                     next();
                 }
-                else if ((result === null || result === void 0 ? void 0 : result.orderstatus) == "closed") {
+                else if ((result === null || result === void 0 ? void 0 : result.orderstatus) == "complete") {
                     res.send("this order already Closed");
                 }
                 else if (result == undefined) {
-                    console.log("hhshjhds");
                     res.send("this order don't belong to you ");
                 }
                 return [3 /*break*/, 3];

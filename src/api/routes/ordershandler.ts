@@ -57,12 +57,11 @@ const orderUserCheck = async (_req:express.Request, res : express.Response , nex
         const userid = parseInt(_req.params.userid);
         const orderid = parseInt(_req.params.orderid);
         const result = await OrdeContext.orderUserCheck(userid,orderid);
-        if (result?.orderstatus== "open") {
+        if (result?.orderstatus== "active") {
             next();
-        }else if (result?.orderstatus == "closed") { 
+        }else if (result?.orderstatus == "complete") { 
             res.send("this order already Closed");     
         }else if (result == undefined){
-            console.log("hhshjhds");
             res.send("this order don't belong to you ");
         }
     } catch (error) {
@@ -76,6 +75,5 @@ export const Orderhandler =  (app:express.Application) => {
     app.post("/order/:userid" , create);
     app.get("/order/:userid" , Getorder);
     app.post("/order/:userid/:orderid/close", orderUserCheck,Closeorder);
-
 }
 

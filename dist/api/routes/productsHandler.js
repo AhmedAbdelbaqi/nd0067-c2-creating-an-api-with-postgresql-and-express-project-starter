@@ -114,9 +114,30 @@ var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+var GetProductsbyCat = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var category, result, error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                category = _req.query.category;
+                return [4 /*yield*/, productsContext.GetProductsbyCat(category)];
+            case 1:
+                result = _a.sent();
+                res.send(result);
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _a.sent();
+                res.send("error with product fetch ");
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var Producthandler = function (app) {
     app.get("/products", index);
     app.post("/product", create);
     app.get("/product/:id", show);
+    app.get("/productcat", GetProductsbyCat);
 };
 exports.Producthandler = Producthandler;

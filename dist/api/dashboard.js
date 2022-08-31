@@ -39,12 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.ProductModel = void 0;
+exports.Dashboard = void 0;
 var database_1 = __importDefault(require("../database"));
-var ProductModel = /** @class */ (function () {
-    function ProductModel() {
+var Dashboard = /** @class */ (function () {
+    function Dashboard() {
         var _this = this;
-        this.create = function (product) { return __awaiter(_this, void 0, void 0, function () {
+        // add products to order 
+        this.addProducts = function (orderid, productid, quantity) { return __awaiter(_this, void 0, void 0, function () {
             var conn, sql, result, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -53,20 +54,19 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = "insert into products (productname ,price ,category)   values ($1,$2,$3) returning *";
-                        return [4 /*yield*/, conn.query(sql, [product.productname, product.price, product.category])];
+                        sql = "insert into ordersProducts (orderid,productid,Quantity) values ($1,$2,$3) returning *";
+                        return [4 /*yield*/, conn.query(sql, [orderid, productid, quantity])];
                     case 2:
                         result = _a.sent();
-                        conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_1 = _a.sent();
-                        throw new Error("Error with product creation ".concat(error_1));
+                        throw new Error("Please check the corrent order and products id ".concat(error_1));
                     case 4: return [2 /*return*/];
                 }
             });
         }); };
-        this.index = function () { return __awaiter(_this, void 0, void 0, function () {
+        this.GetUserFromOrder = function (orderid) { return __awaiter(_this, void 0, void 0, function () {
             var conn, sql, result, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -75,20 +75,19 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = "select * from products ";
-                        return [4 /*yield*/, conn.query(sql)];
+                        sql = "select userid from orders where id = $1 and orderstatus = 'active'";
+                        return [4 /*yield*/, conn.query(sql, [orderid])];
                     case 2:
                         result = _a.sent();
-                        conn.release();
-                        return [2 /*return*/, result.rows];
+                        return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_2 = _a.sent();
-                        throw new Error("Error with products fetching ");
+                        throw new Error("Please check the corrent order id ".concat(error_2));
                     case 4: return [2 /*return*/];
                 }
             });
         }); };
-        this.show = function (productid) { return __awaiter(_this, void 0, void 0, function () {
+        this.GetPopularProduct = function () { return __awaiter(_this, void 0, void 0, function () {
             var conn, sql, result, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -97,41 +96,19 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = "select * from products where id = $1";
-                        return [4 /*yield*/, conn.query(sql, [productid])];
+                        sql = "select  products.id , productname , price , category , sum(ordersProducts.Quantity) as total \n                             from products inner join ordersProducts on ordersProducts.productid = products.id\n\t\t\t\t             group by products.id order by total desc limit 1 ";
+                        return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
-                        conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_3 = _a.sent();
-                        throw new Error("Error with product fetching ");
-                    case 4: return [2 /*return*/];
-                }
-            });
-        }); };
-        this.GetProductsbyCat = function (category) { return __awaiter(_this, void 0, void 0, function () {
-            var conn, sql, result, error_4;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1["default"].connect()];
-                    case 1:
-                        conn = _a.sent();
-                        sql = "select * from products  where category = $1";
-                        return [4 /*yield*/, conn.query(sql, [category])];
-                    case 2:
-                        result = _a.sent();
-                        return [2 /*return*/, result.rows];
-                    case 3:
-                        error_4 = _a.sent();
-                        throw new Error("Please check the correct category  ");
+                        throw new Error("Please check the corrent order id ".concat(error_3));
                     case 4: return [2 /*return*/];
                 }
             });
         }); };
     }
-    return ProductModel;
+    return Dashboard;
 }());
-exports.ProductModel = ProductModel;
+exports.Dashboard = Dashboard;
