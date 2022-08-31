@@ -31,6 +31,7 @@ export class UserModel {
         const conn = await client.connect();
         const sql =  "select id , firstname , lastname from users" ; 
         const result = await conn.query(sql);
+        conn.release();
         return result.rows;
     } catch (error) {
         throw new Error(`Error with fetching user list : ${error}`);
@@ -45,6 +46,7 @@ export class UserModel {
         const conn = await client.connect();
         const sql =  "select * from users where id = $1" ; 
         const result = await conn.query(sql ,[userid]);
+        conn.release();
         return result.rows[0];
     } catch (error) {
         throw new Error(`Error with fetching user data : ${error}`);
@@ -60,6 +62,7 @@ export class UserModel {
         user.password = await passwordhash(user.password);
         const sql =  "update users set firstname = $1 , lastname = $2 , password = $3 where id = $4 returning *" ; 
         const result = await conn.query(sql ,[user.firstname , user.lastname, user.password ,user.id]);
+        conn.release();
         return result.rows[0];
     } catch (error) {
         throw new Error(`Error with editing user data : ${error}`);
@@ -72,6 +75,7 @@ export class UserModel {
         const conn = await client.connect();
         const sql =  "delete from users where id = $1 returning *" ; 
         const result = await conn.query(sql ,[userid]);
+        conn.release();
         return result.rows[0];
     } catch (error) {
         throw new Error(`Error with deleting user : ${error}`);
@@ -84,6 +88,7 @@ check = async (firstname : string , lastname : string) : Promise<user> => {
         const conn = await client.connect();
         const sql =  "select * from users where firstname = $1 and lastname = $2" ; 
         const result = await conn.query(sql ,[firstname , lastname]);
+        conn.release();
         return result.rows[0];
     } catch (error) {
         throw new Error(`Error with checking user : ${error}`);
@@ -95,7 +100,8 @@ passwordcheck =async (password : string, userid:number) : Promise<boolean> => {
         const conn = await client.connect();
         const sql =  "select password from users where id =  $1" ; 
         const hashed = await conn.query(sql ,[userid]);
-        const check = await comparepass(hashed.rows[0].password, password)
+        const check = await comparepass(hashed.rows[0].password, password);
+        conn.release();
         return check;
     } catch (error) {
         throw new Error(`Error with passwordcheck  : ${error}`);

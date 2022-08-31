@@ -1,7 +1,7 @@
 import client from "../database";
 
 
-type order = {
+export type order = {
     id? : number , 
     orderstatus : string , 
     userid : number 
@@ -47,10 +47,10 @@ export class OderModel {
         }
     }
 
-    orderUserCheck = async (userid : number, orderid : number):Promise <order>  => {
+    orderUserCheck = async (userid : number, orderid : number):Promise <order | undefined>  => {
         try {
             const conn = await client.connect();
-            const sql = "select * from orders where userid = $1 and id =$2 ";
+            const sql = "select orderstatus from orders where userid = $1 and id =$2 ";
             const result =  await conn.query(sql , [userid , orderid]);
             conn.release();
             return result.rows[0];

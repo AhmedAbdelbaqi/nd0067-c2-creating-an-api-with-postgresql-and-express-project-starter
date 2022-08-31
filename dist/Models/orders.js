@@ -122,7 +122,7 @@ var OderModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = "select * from orders where userid = $1 and id =$2 ";
+                        sql = "select orderstatus from orders where userid = $1 and id =$2 ";
                         return [4 /*yield*/, conn.query(sql, [userid, orderid])];
                     case 2:
                         result = _a.sent();

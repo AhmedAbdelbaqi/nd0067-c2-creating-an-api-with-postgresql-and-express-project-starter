@@ -1,4 +1,4 @@
-import { OderModel } from "../../Models/orders";
+import {order, OderModel } from "../../Models/orders";
 import express  from "express";
 import jwt from "jsonwebtoken";
 
@@ -57,12 +57,13 @@ const orderUserCheck = async (_req:express.Request, res : express.Response , nex
         const userid = parseInt(_req.params.userid);
         const orderid = parseInt(_req.params.orderid);
         const result = await OrdeContext.orderUserCheck(userid,orderid);
-        if (result.orderstatus == "open") {
+        if (result?.orderstatus== "open") {
             next();
-        }else if (result.orderstatus == "closed") { 
+        }else if (result?.orderstatus == "closed") { 
             res.send("this order already Closed");     
-        }else {
-           
+        }else if (result == undefined){
+            console.log("hhshjhds");
+            res.send("this order don't belong to you ");
         }
     } catch (error) {
         

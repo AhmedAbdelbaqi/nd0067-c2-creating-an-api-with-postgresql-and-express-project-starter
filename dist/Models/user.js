@@ -88,6 +88,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
+                        conn.release();
                         return [2 /*return*/, result.rows];
                     case 3:
                         error_2 = _a.sent();
@@ -110,6 +111,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, conn.query(sql, [userid])];
                     case 2:
                         result = _a.sent();
+                        conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_3 = _a.sent();
@@ -136,6 +138,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, conn.query(sql, [user.firstname, user.lastname, user.password, user.id])];
                     case 3:
                         result = _b.sent();
+                        conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 4:
                         error_4 = _b.sent();
@@ -158,6 +161,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, conn.query(sql, [userid])];
                     case 2:
                         result = _a.sent();
+                        conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_5 = _a.sent();
@@ -180,6 +184,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, conn.query(sql, [firstname, lastname])];
                     case 2:
                         result = _a.sent();
+                        conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_6 = _a.sent();
@@ -204,6 +209,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, (0, passwordhash_1.comparepass)(hashed.rows[0].password, password)];
                     case 3:
                         check = _a.sent();
+                        conn.release();
                         return [2 /*return*/, check];
                     case 4:
                         error_7 = _a.sent();
