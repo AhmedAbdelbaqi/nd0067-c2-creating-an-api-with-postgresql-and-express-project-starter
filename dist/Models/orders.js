@@ -68,28 +68,31 @@ var OderModel = /** @class */ (function () {
             });
         }); };
         // get Orders of specific user
-        this.index = function (userid) { return __awaiter(_this, void 0, void 0, function () {
-            var conn, sql, result, error_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1["default"].connect()];
-                    case 1:
-                        conn = _a.sent();
-                        sql = "select * from orders where userid = $1";
-                        return [4 /*yield*/, conn.query(sql, [userid])];
-                    case 2:
-                        result = _a.sent();
-                        conn.release();
-                        return [2 /*return*/, result.rows];
-                    case 3:
-                        error_2 = _a.sent();
-                        throw new Error("Error with orders fetching  ".concat(error_2));
-                    case 4: return [2 /*return*/];
-                }
+        this.index = function (userid, orderstatus) {
+            if (orderstatus === void 0) { orderstatus = "closed"; }
+            return __awaiter(_this, void 0, void 0, function () {
+                var conn, sql, result, error_2;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 3, , 4]);
+                            return [4 /*yield*/, database_1["default"].connect()];
+                        case 1:
+                            conn = _a.sent();
+                            sql = "select * from orders where userid = $1 and orderstatus = $2";
+                            return [4 /*yield*/, conn.query(sql, [userid, orderstatus])];
+                        case 2:
+                            result = _a.sent();
+                            conn.release();
+                            return [2 /*return*/, result.rows];
+                        case 3:
+                            error_2 = _a.sent();
+                            throw new Error("Error with orders fetching  ".concat(error_2));
+                        case 4: return [2 /*return*/];
+                    }
+                });
             });
-        }); };
+        };
         // Order Close 
         this.Close = function (userid, orderid) { return __awaiter(_this, void 0, void 0, function () {
             var conn, sql, result, error_3;

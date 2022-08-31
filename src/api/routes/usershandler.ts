@@ -48,14 +48,32 @@ const create = async (_req: express.Request , res: express.Response) => {
 }
 
 const index = async (_req: express.Request , res: express.Response) => {
-    const result = await UserContext.index();
-    res.send(result);
+    try {
+        const token = _req.headers.authorization  as string;
+        const verify = jwt.verify(token, process.env.TOKENSECRET as string)
+        const result = await UserContext.index();
+        res.send(result);
+    } catch (error) {
+        res.send("Token Failed - index ");
+    }
+    
 }
 
 const show  = async (_req: express.Request , res: express.Response) => {
-    const id  = parseInt(_req.params.id as string) ;
-    const result = await UserContext.show(id);
-    res.send(result);
+    try {
+        const token = _req.headers.authorization  as string;
+        const verify = jwt.verify(token, process.env.TOKENSECRET as string) as jwt.JwtPayload;
+        const id  = parseInt(_req.params.id as string) ;
+        if (verify.id == id ){
+            const result = await UserContext.show(id);
+            res.send(result);
+        }else {
+            res.send("Authorization  Failed");
+        } 
+    } catch (error) {
+        res.send("Token Failed to show the user data ");
+    }
+
 }
 
 const signin =async (_req: express.Request , res: express.Response) => {
@@ -90,7 +108,8 @@ const edit = async (_req: express.Request , res: express.Response) => {
 
 export const Userhandler = (app:express.Application) => {
     app.get("/users" , index);
+    app.get("/user/:id" , show)
     app.post("/user" , usercheck ,create);
-    app.get("/user/signin" , usercheck, checkpassword ,signin);
+    app.get("/signin" , usercheck, checkpassword ,signin);
     app.post("/user/:id/modify"  , edit)
 }

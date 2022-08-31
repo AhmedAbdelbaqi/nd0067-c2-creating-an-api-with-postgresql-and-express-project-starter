@@ -93,7 +93,7 @@ var Getorder = function (_req, res) { return __awaiter(void 0, void 0, void 0, f
             case 4: return [3 /*break*/, 6];
             case 5:
                 error_2 = _a.sent();
-                res.send("Token error , unsigned token ");
+                res.send("Token error , unsigned token - get user orders " + error_2);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }

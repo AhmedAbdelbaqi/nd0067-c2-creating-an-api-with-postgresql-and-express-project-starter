@@ -114,28 +114,50 @@ var create = function (_req, res) { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
+    var token, verify, result, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, UserContext.index()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                token = _req.headers.authorization;
+                verify = jsonwebtoken_1["default"].verify(token, process.env.TOKENSECRET);
+                return [4 /*yield*/, UserContext.index()];
             case 1:
                 result = _a.sent();
                 res.send(result);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                res.send("Token Failed - index ");
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var show = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, result;
+    var token, verify, id, result, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 4, , 5]);
+                token = _req.headers.authorization;
+                verify = jsonwebtoken_1["default"].verify(token, process.env.TOKENSECRET);
                 id = parseInt(_req.params.id);
+                if (!(verify.id == id)) return [3 /*break*/, 2];
                 return [4 /*yield*/, UserContext.show(id)];
             case 1:
                 result = _a.sent();
                 res.send(result);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                res.send("Authorization  Failed");
+                _a.label = 3;
+            case 3: return [3 /*break*/, 5];
+            case 4:
+                error_2 = _a.sent();
+                res.send("Token Failed to show the user data ");
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
@@ -153,7 +175,7 @@ var signin = function (_req, res) { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 var edit = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var token, userid, verify, modifieduser, result, error_1;
+    var token, userid, verify, modifieduser, result, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -180,7 +202,7 @@ var edit = function (_req, res) { return __awaiter(void 0, void 0, void 0, funct
                 _a.label = 4;
             case 4: return [3 /*break*/, 6];
             case 5:
-                error_1 = _a.sent();
+                error_3 = _a.sent();
                 res.send("Token error , unsigned token ");
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
@@ -189,8 +211,9 @@ var edit = function (_req, res) { return __awaiter(void 0, void 0, void 0, funct
 }); };
 var Userhandler = function (app) {
     app.get("/users", index);
+    app.get("/user/:id", show);
     app.post("/user", usercheck, create);
-    app.get("/user/signin", usercheck, checkpassword, signin);
+    app.get("/signin", usercheck, checkpassword, signin);
     app.post("/user/:id/modify", edit);
 };
 exports.Userhandler = Userhandler;

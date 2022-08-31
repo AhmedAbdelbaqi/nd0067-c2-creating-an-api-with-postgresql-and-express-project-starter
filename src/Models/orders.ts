@@ -22,11 +22,11 @@ export class OderModel {
     }
 
     // get Orders of specific user
-    index = async (userid : number):Promise <order[]> => {
+    index = async (userid : number , orderstatus: string = "closed"):Promise <order[]> => {
         try {
             const conn = await client.connect();
-            const sql = "select * from orders where userid = $1";
-            const result =  await conn.query(sql , [userid]);
+            const sql = "select * from orders where userid = $1 and orderstatus = $2";
+            const result =  await conn.query(sql , [userid , orderstatus]);
             conn.release();
             return result.rows;
         } catch (error) {

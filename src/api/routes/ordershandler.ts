@@ -32,7 +32,7 @@ const Getorder = async (_req:express.Request, res : express.Response) => {
             res.send("Authentication Failed - order fetching ");
         }
     } catch (error) {
-        res.send("Token error , unsigned token ")
+        res.send("Token error , unsigned token - get user orders " + error)
     }
 }
 
