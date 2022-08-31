@@ -52,3 +52,34 @@ Add JWT functionality as shown in the course. Make sure that JWTs are required f
 Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
 
 Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+
+
+## database configuration in .env file  - (make sure the port is 5432)
+## do the migration using db-migrate up 
+## start by user adding routes 
+localhost/user >>  Add the json body with 
+Example 
+{
+    "firstname" : "Said",
+    "lastname" : "Ahmed",
+    "password" : "uinkk"
+}
+## Token always in the {Headers.Authorization} ##### Token check 
+
+### User Routes 
+app.get("/users" , index); >> show all users [token]
+app.get("/user/:id" , show) >> show single user data [token]
+app.post("/user" , usercheck ,create); >> create new user N[token] - can't create user with the same first and last name 
+app.get("/signin" , usercheck, checkpassword ,signin); >> get the token by signing in 
+app.post("/user/:id/modify"  , edit) >> edit the user [token]
+
+### order Routes
+app.post("/order/:userid" , create); >> create order using userid [token]
+app.get("/order/:userid" , Getorder); >> get the complete orders of the usere [token]
+app.post("/order/:userid/:orderid/close", orderUserCheck,Closeorder); >> close the order [token]
+
+### Products Routes
+app.get("/products" , index); >> get all products N[token]
+app.post("/product", create); >> create new product N[token]
+app.get("/product/:id" , show); >> show product data N[token]
+app.get("/productcat" , GetProductsbyCat);  >> get product by catergory N[token]
