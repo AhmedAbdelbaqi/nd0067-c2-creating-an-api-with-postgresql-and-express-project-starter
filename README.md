@@ -106,11 +106,53 @@ Example : http://localhost:3000/user/1/modify
 
 ######                 order Routes
 app.post("/order/:userid" , create); >> create order using userid [token]
+Example : http://localhost:3000/order/2
+
 app.get("/order/:userid" , Getorder); >> get the complete orders of the usere [token]
-app.post("/order/:userid/:orderid/close", orderUserCheck,Closeorder); >> close the order [token]
+Example : http://localhost:3000/order/2
+[orderstatus] (active or complete) - get the user orders which are active or complete >> [default] complete 
+[body]
+{
+    "status" : "active"
+}
+
+app.post("/orderclose", orderUserCheck,Closeorder); >> close the order [token]
+Example : http://localhost:3000/orderclose
+[body]
+
+{
+    "userid" : 2 ,
+    "orderid" : 3
+}
 
 ### Products Routes
 app.get("/products" , index); >> get all products N[token]
+Example : http://localhost:3000/products
+
 app.post("/product", create); >> create new product N[token]
+Example : http://localhost:3000/product
+[body]
+{
+    "productname" :"Product C" , 
+    "price" : 5000 ,
+    "category" : "Cat.2"   
+}
+
+
 app.get("/product/:id" , show); >> show product data N[token]
+Example : http://localhost:3000/product/1
+
 app.get("/productcat" , GetProductsbyCat);  >> get product by catergory N[token]
+Example : http://localhost:3000/productcat?category=Cat.1
+
+in the [dashboardHandler.ts]
+app.get("/PopularProduct" , GetPopularProduct); N[token]
+Example : http://localhost:3000/PopularProduct
+
+
+
+
+#####           Database for test enviroment 
+## Database :  shopping_test 
+## user : shopping_user (same for main database .env)
+## Password : (same for main database .env)

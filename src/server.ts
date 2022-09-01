@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import cors from "cors";
 
 import { Userhandler } from './api/routes/usershandler';
 import { Orderhandler } from './api/routes/ordershandler';
@@ -8,6 +9,11 @@ import { DashboardHandler } from './api/routes/dashboardHandler';
 
 const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
+
+const corsoption =  {
+    origin : "*"
+}
+app.use(cors(corsoption));
 
 app.use(bodyParser.json())
 
