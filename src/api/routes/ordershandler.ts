@@ -24,9 +24,10 @@ const create =  async (_req:express.Request, res : express.Response) => {
 const Getorder = async (_req:express.Request, res : express.Response) => {
     try {
         const userid = parseInt(_req.params.userid) ;
+        const status = _req.body.status;
         const token  = await jwt.verify(_req.headers.authorization as string, process.env.TOKENSECRET as string) as jwt.JwtPayload;
         if (token.id == userid ) {
-            const result = await OrdeContext.index(userid);
+            const result = await OrdeContext.index(userid,status);
             res.send(result);
         } else {
             res.send("Authentication Failed - order fetching ");
@@ -38,8 +39,8 @@ const Getorder = async (_req:express.Request, res : express.Response) => {
 
 const Closeorder = async (_req:express.Request, res : express.Response) => {
     try {
-        const userid = parseInt(_req.params.userid);
-        const orderid = parseInt(_req.params.orderid);
+        const userid = parseInt(_req.body.userid);
+        const orderid = parseInt(_req.body.orderid);
         const token  = await jwt.verify(_req.headers.authorization as string, process.env.TOKENSECRET as string) as jwt.JwtPayload;
         if (token.id == userid ) {
             const result = await OrdeContext.Close(userid,orderid);
@@ -54,18 +55,21 @@ const Closeorder = async (_req:express.Request, res : express.Response) => {
 
 const orderUserCheck = async (_req:express.Request, res : express.Response , next : express.NextFunction) => {
     try {
-        const userid = parseInt(_req.params.userid);
-        const orderid = parseInt(_req.params.orderid);
+        const userid = parseInt(_req.body.userid);
+        const orderid = parseInt(_req.body.orderid);
         const result = await OrdeContext.orderUserCheck(userid,orderid);
-        if (result?.orderstatus== "active") {
-            next();
-        }else if (result?.orderstatus == "complete") { 
-            res.send("this order already Closed");     
-        }else if (result == undefined){
+        
+        if (!result) {
             res.send("this order don't belong to you ");
+        }else {
+            if (result?.orderstatus == "active") {
+                next();
+            }else if (result?.orderstatus == "complete") { 
+                res.send("this order already Closed"); 
+            }
         }
     } catch (error) {
-        
+        res.send("Error with Data")
     }
 }
 
@@ -74,6 +78,6 @@ const orderUserCheck = async (_req:express.Request, res : express.Response , nex
 export const Orderhandler =  (app:express.Application) => {
     app.post("/order/:userid" , create);
     app.get("/order/:userid" , Getorder);
-    app.post("/order/:userid/:orderid/close", orderUserCheck,Closeorder);
+    app.post("/orderclose", orderUserCheck,Closeorder);
 }
 

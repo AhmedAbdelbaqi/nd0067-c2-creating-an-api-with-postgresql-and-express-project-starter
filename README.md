@@ -66,14 +66,45 @@ Example
 }
 ## Token always in the {Headers.Authorization} ##### Token check 
 
-### User Routes 
-app.get("/users" , index); >> show all users [token]
-app.get("/user/:id" , show) >> show single user data [token]
-app.post("/user" , usercheck ,create); >> create new user N[token] - can't create user with the same first and last name 
-app.get("/signin" , usercheck, checkpassword ,signin); >> get the token by signing in 
-app.post("/user/:id/modify"  , edit) >> edit the user [token]
+#####                 User Routes 
+### app.get("/users" , index); >> show all users [token] 
+Example : http://localhost:3000/users [get]
 
-### order Routes
+### app.get("/user/:id" , show) >> show single user data [token]
+Example : http://localhost:3000/user/4 [get] 
+
+
+### app.post("/user" , usercheck ,create); >> create new user N[token] - can't create user with the same first and last name 
+Example : http://localhost:3000/user [post]
+[Body]
+{
+    "firstname" : "Said",
+    "lastname" : "Ahmed",
+    "password" : "uinkk"
+}
+
+### app.get("/signin" , usercheck, checkpassword ,signin); >> get the token by signing in 
+Example : http://localhost:3000/user/signin 
+[Body]
+{
+    "firstname" : "Said",
+    "lastname" : "Ahmed",
+    "password" : "uinkk"
+}
+
+
+app.post("/user/:id/modify"  , edit) >> edit the user [token]
+Example : http://localhost:3000/user/1/modify 
+[Body]
+{
+    "firstname" : "Said",
+    "lastname" : "Ahmed",
+    "password" : "uinkk"
+}
+[token] [headers.Authorization]
+
+
+######                 order Routes
 app.post("/order/:userid" , create); >> create order using userid [token]
 app.get("/order/:userid" , Getorder); >> get the complete orders of the usere [token]
 app.post("/order/:userid/:orderid/close", orderUserCheck,Closeorder); >> close the order [token]
