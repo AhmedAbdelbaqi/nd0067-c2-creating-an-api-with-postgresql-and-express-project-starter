@@ -77,9 +77,14 @@ const show  = async (_req: express.Request , res: express.Response) => {
 }
 
 const signin =async (_req: express.Request , res: express.Response) => {
-    const token  = await jwt.sign(res.locals.user, process.env.TOKENSECRET as string);
-    const obj = {"token":token , "user id" : res.locals.user.id}
-    res.send(obj);
+    try {
+        const token  = await jwt.sign(res.locals.user, process.env.TOKENSECRET as string);
+        const obj = {"token":token , "user id" : res.locals.user.id}
+        res.send(obj);      
+    } catch (error) {
+        res.send("Error with signing in ");
+    }
+
 }
 
 const edit = async (_req: express.Request , res: express.Response) => {

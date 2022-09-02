@@ -53,9 +53,29 @@ Before submitting, make sure that your project is complete with a `README.md`. Y
 
 Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
 
+## Instruction to create .env file 
+1. create file with extention .env in project directory 
+2. add the variables in file as below 
+----- .env file variables -------
+POSTGRES_HOST = "localhost"
+POSTGRES_DB = "shopping"
+POSTGRES_USER = "shopping_user"
+POSTGRES_PASSWORD = "password123"
+POSTGRES_PORT = 5432
+PASSWORDPEPPER = "hash#"
+SALTROUNDS = 10
+TOKENSECRET = "jsontoken"
+ENV = dev
 
-## database configuration in .env file  - (make sure the port is 5432)
-## do the migration using db-migrate up 
+# Test DataBase 
+TEST_DATABASE = "shopping_test"
+TEST_USER = "shopping_user_test"
+TEST_PASSWORD = 123
+----- End .env file variables -------
+
+# Express Server Port : 3000 
+# Pg Database Port : 5432
+
 
 ## Step1
 ## SQL Database creation 
