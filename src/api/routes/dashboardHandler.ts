@@ -32,8 +32,13 @@ const addProducts = async (_req:express.Request, res:express.Response) => {
 }
 
 const GetPopularProduct = async (_req:express.Request, res:express.Response) => {
-        const result = await DashboardContext.GetPopularProduct();
-        res.send(result);
+        try {
+                const result = await DashboardContext.GetPopularProduct();
+                res.send(result);
+        } catch (error) {
+                res.send("Error with fetching the most popular produsct  ");
+        }
+        
 }
 
 export const DashboardHandler = (app:express.Application) => {
