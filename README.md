@@ -66,8 +66,6 @@ PASSWORDPEPPER = "hash#"
 SALTROUNDS = 10
 TOKENSECRET = "jsontoken"
 ENV = dev
-
-# Test DataBase 
 TEST_DATABASE = "shopping_test"
 TEST_USER = "shopping_user_test"
 TEST_PASSWORD = 123
