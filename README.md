@@ -56,14 +56,44 @@ Before submitting your project, spin it up and test each endpoint. If each one r
 
 ## database configuration in .env file  - (make sure the port is 5432)
 ## do the migration using db-migrate up 
-## start by user adding routes 
-localhost/user >>  Add the json body with 
-Example 
+
+## Step1
+## SQL Database creation 
+in postgres command terminal 
+create database shopping ;
+create user shopping_user with password 'password123';
+grant all privileges on database shopping to shopping_user;
+alter database shopping owner to shopping_user; 
+
+## Step 2 do the migration 
+db-migrate up 
+
+
+
+## Step 3 start the server 
+npm run watch 
+create uesrs 
+http://localhost:3000/user
+[body] 
 {
-    "firstname" : "Said",
-    "lastname" : "Ahmed",
-    "password" : "uinkk"
+"firstname" : "Ahmed",
+"lastname" : "Elsadek",
+"password" : 2020
 }
+
+
+### start jasmine test 
+## step 1 test Database
+create database shopping_test ;
+create user shopping_user_test with password '123';
+grant all privileges on database shopping_test to shopping_user_test;
+alter database shopping_test owner to shopping_user_test; 
+
+## step 2 
+npm run test [windows] script: set ENV=test
+npm run test [linux] >> change the script in package.json to ENV=test
+
+[note] 
 ## Token always in the {Headers.Authorization} ##### Token check 
 
 #####                 User Routes 
@@ -152,7 +182,3 @@ Example : http://localhost:3000/PopularProduct
 
 
 
-#####           Database for test enviroment 
-## Database :  shopping_test 
-## user : shopping_user (same for main database .env)
-## Password : (same for main database .env)

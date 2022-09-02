@@ -22,8 +22,8 @@ else if (process.env.ENV == "test") {
         host: POSTGRES_HOST,
         database: TEST_DATABASE,
         port: parseInt(POSTGRES_PORT),
-        user: POSTGRES_USER,
-        password: POSTGRES_PASSWORD
+        user: TEST_USER,
+        password: TEST_PASSWORD
     });
 }
 exports.default = client;

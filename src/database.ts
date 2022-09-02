@@ -29,8 +29,8 @@ if (process.env.ENV == "dev" ){
         host : POSTGRES_HOST,
         database :TEST_DATABASE,
         port : parseInt(POSTGRES_PORT as string)  ,
-        user : POSTGRES_USER,
-        password : POSTGRES_PASSWORD
+        user : TEST_USER,
+        password : TEST_PASSWORD
     })
 }
 

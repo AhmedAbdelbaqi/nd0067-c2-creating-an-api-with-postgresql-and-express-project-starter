@@ -29,7 +29,8 @@ describe("Order database queries test ", () => {
         expect(res).toBeTruthy();
     });
     it("Order creation", async () => {
-        const res = await ordercontext.create(2);
+        await Request.post("/user");
+        const res = await ordercontext.create(1);
         expect(res).toBeTruthy();
     });
 });
